@@ -2,7 +2,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const infoList = document.getElementById("infoList");
     const infoForm = document.getElementById("infoForm");
 
-    // Функция загрузки списка пользователей
     function loadInfos() {
         fetch("/api/steps")
             .then(response => response.json())
@@ -19,7 +18,6 @@ document.addEventListener("DOMContentLoaded", () => {
             });
     }
 
-    // Добавление пользователя
     infoForm.addEventListener("submit", event => {
         event.preventDefault();
         const steps = document.getElementById("steps").value;
@@ -36,12 +34,10 @@ document.addEventListener("DOMContentLoaded", () => {
           });
     });
 
-    // Удаление пользователя
     window.deleteInfo = (id) => {
         fetch(`/api/steps/${id}`, { method: "DELETE" })
             .then(() => loadInfos());
     };
 
-    // Загрузка пользователей при загрузке страницы
     loadInfos();
 });
