@@ -37,7 +37,12 @@ def index():
 def get_steps():
     info = Steps.query.all()
     return jsonify([steps.to_dict() for steps in info])
-
+def index():
+    steps = get_steps()
+    total = sum(s["steps"] for s in steps)
+    return render_template("index.html",
+                           steps=steps,
+                           total_steps=total)
 
 # Добавление пользователя
 @app.route("/api/steps", methods=["POST"])
@@ -47,7 +52,6 @@ def add_steps():
     db.session.add(new_info)
     db.session.commit()
     return jsonify(new_info.to_dict()), 201
-
 
 # Удаление пользователя
 @app.route("/api/steps/<int:info_id>", methods=["DELETE"])
@@ -67,3 +71,4 @@ def clear_steps():
 
 if __name__ == "__main__":
     app.run(debug=True)
+       
