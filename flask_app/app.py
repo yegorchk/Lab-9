@@ -35,6 +35,12 @@ def index():
 def get_steps():
     info = Steps.query.all()
     return jsonify([steps.to_dict() for steps in info])
+def index():
+    steps = get_steps()
+    total = sum(s["steps"] for s in steps)
+    return render_template("index.html",
+                           steps=steps,
+                           total_steps=total)
 
 
 # Добавление пользователя
@@ -57,6 +63,14 @@ def delete_info(info_id):
     db.session.commit()
     return jsonify({"message": "Information deleted successfully"})
 
-
+@app.route("/reset", methods=["POST"])
+def clear_all_steps():
+    Steps.query.delete()
+    db.session.commit()
+def reset():
+    clear_all_steps()
+    return redirect(url_for("id"))
+ 
 if __name__ == "__main__":
     app.run(debug=True)
+       
