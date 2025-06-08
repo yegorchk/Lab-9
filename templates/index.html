@@ -19,6 +19,10 @@
         </div>
         <button onClick="addProduct()">Add</button>
     </form>
+    <p>Total Steps: <span id="totalCell">0</span></p>
+  <form action="/reset" method="post">
+    <button type="submit">Reset All</button>
+  </form>
     <ul>
         {% for product in products_list %}
         <li>

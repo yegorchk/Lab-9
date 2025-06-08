@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template, redirect
 from flask_sqlalchemy import SQLAlchemy
 
 
@@ -27,7 +27,9 @@ with app.app_context():
 # Главная страница (фронтенд)
 @app.route("/")
 def index():
-    return render_template("index.html")
+    steps = Steps.query.all()
+    total = sum(step.steps for step in steps)
+    return render_template("index.html", total=total)
 
 
 # Получение всех пользователей
@@ -57,6 +59,11 @@ def delete_info(info_id):
     db.session.commit()
     return jsonify({"message": "Information deleted successfully"})
 
+@app.route("/reset", methods=["POST"])
+def clear_steps():
+    Steps.query.delete()
+    db.session.commit()
+    return redirect("/")
 
 if __name__ == "__main__":
     app.run(debug=True)

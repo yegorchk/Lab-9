@@ -13,6 +13,8 @@ document.addEventListener("DOMContentLoaded", () => {
                     li.innerHTML = `${info.steps} (${info.date}) 
                         <button onclick="deleteInfo(${info.id})">❌</button>`;
                     infoList.appendChild(li);
+                    let total = infos.reduce((sum, info) => sum + info.steps, 0);
+                    document.getElementById("totalCell").textContent = total;
                 });
             });
     }

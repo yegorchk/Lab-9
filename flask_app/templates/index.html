@@ -14,6 +14,11 @@
         <button type="submit">Добавить</button>
     </form>
 
+     <p>Total Steps: <span id="totalCell">0</span></p>
+  <form action="/reset" method="post">
+    <button type="submit">Reset All</button>
+  </form>
+
     <ul id="infoList"></ul>
 
     <script src="{{ url_for('static', filename='script.js') }}"></script>
