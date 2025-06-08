@@ -42,7 +42,6 @@ def index():
                            steps=steps,
                            total_steps=total)
 
-
 # Добавление пользователя
 @app.route("/api/steps", methods=["POST"])
 def add_steps():
@@ -51,7 +50,6 @@ def add_steps():
     db.session.add(new_info)
     db.session.commit()
     return jsonify(new_info.to_dict()), 201
-
 
 # Удаление пользователя
 @app.route("/api/steps/<int:info_id>", methods=["DELETE"])
