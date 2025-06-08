@@ -9,7 +9,6 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app)
 
 
-# Модель пользователя
 class Steps(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     steps = db.Column(db.Integer, nullable=False)
@@ -19,20 +18,16 @@ class Steps(db.Model):
         return {"id": self.id, "steps": self.steps, "date": self.date}
 
 
-# Создание базы данных
 with app.app_context():
     db.create_all()
 
 
-# Главная страница (фронтенд)
 @app.route("/")
 def index():
     steps = Steps.query.all()
     total = sum(step.steps for step in steps)
     return render_template("index.html", total=total)
 
-
-# Получение всех пользователей
 @app.route("/api/steps", methods=["GET"])
 def get_steps():
     info = Steps.query.all()
@@ -44,7 +39,6 @@ def index():
                            steps=steps,
                            total_steps=total)
 
-# Добавление пользователя
 @app.route("/api/steps", methods=["POST"])
 def add_steps():
     data = request.get_json()
@@ -53,7 +47,6 @@ def add_steps():
     db.session.commit()
     return jsonify(new_info.to_dict()), 201
 
-# Удаление пользователя
 @app.route("/api/steps/<int:info_id>", methods=["DELETE"])
 def delete_info(info_id):
     info = Steps.query.get(info_id)
