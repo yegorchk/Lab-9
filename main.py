@@ -3,8 +3,8 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 
 
-app = Flask('Furniture store')
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///project.db'
+app = Flask("Furniture store")
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///project.db"
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
@@ -22,6 +22,7 @@ migrate = Migrate(app, db)
 #      'price': 8000,
 #      'in_stock': False,
 #      'id': 2},
+#
 # ]
 
 
@@ -32,19 +33,19 @@ class Product(db.Model):
     in_stock = db.Column(db.Boolean, default=True)
 
     def __repr__(self):
-        return f'Product{self.id}. {self.prod_name} - {self.price} rub.'
+        return f"Product{self.id}. {self.prod_name} - {self.price} rub."
 
 
-@app.route('/')
+@app.route("/")
 def main():
     products = Product.query.all()
-    return render_template('index.html', products_list=products)
+    return render_template("index.html", products_list=products)
 
 
-@app.route('/in_stock/<product_id>', methods=['PATCH'])
+@app.route("/in_stock/<product_id>", methods=["PATCH"])
 def modify_product(product_id):
     product = Product.query.get(product_id)
-    product.in_stock = request.json['in_stock']
+    product.in_stock = request.json["in_stock"]
     db.session.commit()
     # global products
     # in_stock = request.json['in_stock']
@@ -54,7 +55,7 @@ def modify_product(product_id):
     # return 'OK'
 
 
-@app.route('/add', methods=['POST'])
+@app.route("/add", methods=["POST"])
 def add_product():
     data = request.json
     product = Product(**data)
@@ -65,11 +66,10 @@ def add_product():
     # id_new = id_last + 1
     # data['id'] = id_new
     # products.append(data)
-    return 'OK'
+    return "OK"
 
 
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     with app.app_context():
         db.create_all()
     app.run(debug=True)
